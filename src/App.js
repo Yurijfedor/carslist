@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCars } from "./redux/cars/operations";
+import {selectCars, selectIsLoading } from "./redux/cars/selectors";
+import  CarList  from "./components/carsList";
 function App() {
+  const dispatch = useDispatch()
+  const isLoading = useSelector(selectIsLoading)
+  const carsList = useSelector(selectCars)
+
+  useEffect(() => {
+    dispatch(fetchCars());
+  }, [dispatch]);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  <>
+    <button onClick={() => console.log(carsList)}>Get Cars</button>
+    <CarList/>
+  </>
+  )
+  
 }
 
 export default App;

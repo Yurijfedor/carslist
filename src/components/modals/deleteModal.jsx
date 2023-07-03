@@ -4,7 +4,6 @@ import { ModalBackdrop } from '../modalBackdrop/modalBackdrop';
 import {
   ModalContainer,
   ModalTitle,
-  FormLabel,
   ButtonContainer,
   TextStyled,
 } from './modal.styled';

@@ -1,47 +1,58 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import ReactPaginate from 'react-paginate';
-import { selectCars } from '../redux/cars/selectors';
+import { selectCurrentPage, selectVisibleCars } from '../redux/selectors';
+import { EditCar } from './modals/editModal';
 
-function CarList() {
- const cars = useSelector(selectCars)
-  const [currentPage, setCurrentPage] = useState(1);
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [filteredCars, setFilteredCars] = useState([]);
+export const CarList = ({ perPage }) => {
+  const carsList = useSelector(selectVisibleCars);
+  const currentPage = useSelector(selectCurrentPage);
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  const currentCars = carsList.slice(startIndex, endIndex);
+  const [selectedCar, setSelectedCar] = useState({});
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const carsPerPage = 10;
-
-//   const totalPages = Math.ceil(filteredCars.length / carsPerPage);
-// const totalPages = Math.ceil(cars.length / carsPerPage);
-
-
-  const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected + 1);
+  const handleEdit = (e, car) => {
+    setSelectedCar(car);
+    setShowEditModal(true);
+    e.target.value = '';
   };
 
-  // ... Rest of the code ...
+  const handleDelete = car => {
+    setSelectedCar(car);
+    setShowDeleteModal(true);
+  };
 
   const renderTableRows = () => {
-    console.log(cars);
-    const startIndex = (currentPage - 1) * carsPerPage;
-    const endIndex = startIndex + carsPerPage;
-    const currentCars = cars.slice(startIndex, endIndex);
-
-    return currentCars.map((car, index) => (
-      <tr key={index}>
-        <td>{car.company}</td>
-        <td>{car.model}</td>
-        <td>{car.vin}</td>
-        <td>{car.color}</td>
-        <td>{car.year}</td>
+    return currentCars.map(car => (
+      <tr key={car.id}>
+        <td>{car.car}</td>
+        <td>{car.car_model}</td>
+        <td>{car.car_vin}</td>
+        <td>{car.car_color}</td>
+        <td>{car.car_model_year}</td>
         <td>{car.price}</td>
-        <td>{car.availability}</td>
+        <td>{car.availability ? 'available' : 'not available'}</td>
         <td>
-          {/* Actions column */}
-          {/* Add your desired actions/buttons here */}
+          <select
+            onChange={e =>
+              e.target.value === 'edit' ? handleEdit(e, car) : handleDelete(car)
+            }
+          >
+            <option value="">Actions</option>
+            <option value="edit">Edit</option>
+            <option value="delete">Delete</option>
+          </select>
         </td>
       </tr>
     ));
+  };
+
+  const closeModal = () => {
+    // setSelectedCar(null);
+    setShowEditModal(false);
+    setShowDeleteModal(false);
   };
 
   return (
@@ -61,20 +72,20 @@ function CarList() {
         </thead>
         <tbody>{renderTableRows()}</tbody>
       </table>
-
-      <div>
-        <ReactPaginate
-          pageCount={Math.ceil(cars.length / carsPerPage)}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          onPageChange={handlePageChange}
-          forcePage={currentPage - 1}
-          containerClassName={'pagination'}
-          activeClassName={'active'}
-        />
-      </div>
+      <EditCar
+        item={selectedCar}
+        showEditModal={showEditModal}
+        closeModal={closeModal}
+      />
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <div className="modal">
+          <div className="modal-content">
+            {/* ...Delete modal content... */}
+            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-
-export default CarList

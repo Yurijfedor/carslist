@@ -3,6 +3,16 @@ import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { addCar } from '../../redux/cars/carsSlice';
 import { ModalBackdrop } from '../modalBackdrop/modalBackdrop';
+import {
+  ModalContainer,
+  ModalTitle,
+  ModalForm,
+  FormGroup,
+  FormLabel,
+  FormInput,
+  ButtonContainer,
+} from './modal.styled';
+import { Button } from '../buttons/button';
 
 export const AddCar = ({ showAddModal, closeModal }) => {
   const dispatch = useDispatch();
@@ -35,92 +45,92 @@ export const AddCar = ({ showAddModal, closeModal }) => {
   return (
     showAddModal && (
       <ModalBackdrop onClose={closeModal}>
-        <div className="modal" onClick={e => e.stopPropagation()}>
-          <div className="modal-content">
-            <h2>Add Car</h2>
-            <form>
-              <div>
-                <label>
-                  Company:
-                  <input
-                    type="text"
-                    name="car"
-                    value={newCar.company}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Model:
-                  <input
-                    type="text"
-                    name="car_model"
-                    value={newCar.model}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  VIN:
-                  <input
-                    type="text"
-                    name="car_vin"
-                    value={newCar.vin}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Color:
-                  <input
-                    type="text"
-                    name="car_color"
-                    value={newCar.color}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Year:
-                  <input
-                    type="text"
-                    name="car_model_year"
-                    value={newCar.year}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Price:
-                  <input
-                    type="text"
-                    name="price"
-                    value={newCar.price}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Availability:
-                  <input
-                    type="text"
-                    name="availability"
-                    value={newCar.availability}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-            </form>
-            <button onClick={handleAdd}>Add</button>
-            <button onClick={closeModal}>Cancel</button>
-          </div>
-        </div>
+        <ModalContainer onClick={e => e.stopPropagation()}>
+          <ModalTitle>Add Car</ModalTitle>
+          <ModalForm>
+            <FormGroup>
+              <FormLabel>
+                Company:
+                <FormInput
+                  type="text"
+                  name="car"
+                  value={newCar.company}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Model:
+                <FormInput
+                  type="text"
+                  name="car_model"
+                  value={newCar.model}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                VIN:
+                <FormInput
+                  type="text"
+                  name="car_vin"
+                  value={newCar.vin}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Color:
+                <FormInput
+                  type="text"
+                  name="car_color"
+                  value={newCar.color}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Year:
+                <FormInput
+                  type="text"
+                  name="car_model_year"
+                  value={newCar.year}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Price:
+                <FormInput
+                  type="text"
+                  name="price"
+                  value={newCar.price}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Availability:
+                <FormInput
+                  type="text"
+                  name="availability"
+                  value={newCar.availability}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+          </ModalForm>
+          <ButtonContainer>
+            <Button onClick={handleAdd} text={'Add'} />
+            <Button onClick={closeModal} text={'Cancel'} />
+          </ButtonContainer>
+        </ModalContainer>
       </ModalBackdrop>
     )
   );

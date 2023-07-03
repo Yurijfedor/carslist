@@ -69,3 +69,8 @@ export const CloseButton = styled.button`
     background-color: #555e64;
   }
 `;
+
+export const TextStyled = styled.p`
+  font-weight: bold;
+  margin-bottom: 5px;
+`;

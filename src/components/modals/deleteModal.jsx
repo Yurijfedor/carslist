@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteCar } from '../../redux/cars/carsSlice';
 import { ModalBackdrop } from '../modalBackdrop/modalBackdrop';

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setFilter } from '../redux/cars/filterSlice';
-import { setCurrentPage } from '../redux/cars/carsSlice';
+import { setFilter } from '../../redux/cars/filterSlice';
+import { setCurrentPage } from '../../redux/cars/carsSlice';
+import { InputStyled } from './searchInput.styled';
 
 export const SearshInput = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export const SearshInput = () => {
   };
 
   return (
-    <input
+    <InputStyled
       type="text"
       placeholder="Search..."
       value={searchTerm}

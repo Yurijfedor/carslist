@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchCars } from './redux/cars/operations';
-import { CarList } from './components/carsList';
-import { SearshInput } from './components/searshInput';
-import { selectIsLoading } from './redux/selectors';
-import { Pagination } from './components/pagination';
+import { CarList } from './components/carsList/carsList';
+import { SearshInput } from './components/search/searshInput';
+import { Pagination } from './components/pagination/pagination';
 import { AddCar } from './components/modals/addModal';
+import { Button } from './components/buttons/button';
+import { ContainerMain } from './components/container/container.styled';
+import { Wrapper } from './components/wrappers/topWrapp.styled';
 
 export const App = () => {
   const dispatch = useDispatch();
   const [showAddModal, setShowAddModal] = useState(false);
-  const isLoading = useSelector(selectIsLoading);
   const carsPerPage = 10;
 
   useEffect(() => {
@@ -29,12 +30,14 @@ export const App = () => {
   };
 
   return (
-    <>
-      <SearshInput />
-      <button onClick={handleAdd}>Add car</button>
+    <ContainerMain>
+      <Wrapper>
+        <SearshInput />
+        <Button onClick={handleAdd} text={'Add car'} />
+      </Wrapper>
       <CarList perPage={carsPerPage} />
       <Pagination perPage={carsPerPage} />
       <AddCar showAddModal={showAddModal} closeModal={closeModal} />
-    </>
+    </ContainerMain>
   );
 };

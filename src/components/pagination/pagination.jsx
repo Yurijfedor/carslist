@@ -1,7 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCurrentPage } from '../redux/selectors';
-import { selectVisibleCars } from '../redux/selectors';
-import { setCurrentPage } from '../redux/cars/carsSlice';
+import { selectCurrentPage } from '../../redux/selectors';
+import { selectVisibleCars } from '../../redux/selectors';
+import { setCurrentPage } from '../../redux/cars/carsSlice';
+import { Button } from '../buttons/button';
+import { Wrapper } from '../wrappers/topWrapp.styled';
 
 export const Pagination = ({ perPage }) => {
   const dispatch = useDispatch();
@@ -20,30 +22,28 @@ export const Pagination = ({ perPage }) => {
     }
 
     return pageNumbers.map(number => (
-      <button
+      <Button
         key={number}
         className={currentPage === number ? 'active' : ''}
         onClick={() => handlePageChange(number)}
-      >
-        {number}
-      </button>
+        text={number}
+      />
     ));
   };
   return (
-    <>
-      <button
+    <Wrapper>
+      <Button
         disabled={currentPage === 1 || totalPages < 10}
         onClick={() => handlePageChange(currentPage - 1)}
-      >
-        Previous
-      </button>
+        text={'Previous'}
+      />
+
       {renderPagination()}
-      <button
+      <Button
         disabled={currentPage === totalPages}
         onClick={() => handlePageChange(currentPage + 1)}
-      >
-        Next
-      </button>
-    </>
+        text={'Next'}
+      />
+    </Wrapper>
   );
 };

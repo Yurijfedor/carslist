@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setItems } from '../../redux/cars/carsSlice';
 import { ModalBackdrop } from '../modalBackdrop/modalBackdrop';
+import {
+  ModalContainer,
+  ModalTitle,
+  ModalForm,
+  FormGroup,
+  FormLabel,
+  FormInput,
+  ButtonContainer,
+} from './modal.styled';
+import { Button } from '../buttons/button';
 
 export const EditCar = ({ item, showEditModal, closeModal }) => {
   const dispatch = useDispatch();
@@ -53,72 +63,72 @@ export const EditCar = ({ item, showEditModal, closeModal }) => {
   return (
     showEditModal && (
       <ModalBackdrop onClose={closeModal}>
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Edit Car</h2>
-            <form onClick={handleFormClick} onSubmit={handleFormSubmit}>
-              <div>
-                <label>
-                  Company:
-                  <input type="text" value={car} disabled />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Model:
-                  <input type="text" value={car_model} disabled />
-                </label>
-              </div>
-              <div>
-                <label>
-                  VIN:
-                  <input type="text" value={car_vin} disabled />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Color:
-                  <input
-                    type="text"
-                    name="car_color"
-                    value={editedCar.car_color}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Year:
-                  <input type="text" value={car_model_year} disabled />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Price:
-                  <input
-                    type="text"
-                    name="price"
-                    value={editedCar.price}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Availability:
-                  <input
-                    type="text"
-                    name="availability"
-                    value={editedCar.availability}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </div>
-              <button onClick={handleSave}>Save</button>
-              <button onClick={closeModal}>Close</button>
-            </form>
-          </div>
-        </div>
+        <ModalContainer>
+          <ModalTitle>Edit Car</ModalTitle>
+          <ModalForm onClick={handleFormClick} onSubmit={handleFormSubmit}>
+            <FormGroup>
+              <FormLabel>
+                Company:
+                <FormInput type="text" value={car} disabled />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Model:
+                <FormInput type="text" value={car_model} disabled />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                VIN:
+                <FormInput type="text" value={car_vin} disabled />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Color:
+                <FormInput
+                  type="text"
+                  name="car_color"
+                  value={editedCar.car_color}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Year:
+                <FormInput type="text" value={car_model_year} disabled />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Price:
+                <FormInput
+                  type="text"
+                  name="price"
+                  value={editedCar.price}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>
+                Availability:
+                <FormInput
+                  type="text"
+                  name="availability"
+                  value={editedCar.availability}
+                  onChange={handleInputChange}
+                />
+              </FormLabel>
+            </FormGroup>
+            <ButtonContainer>
+              <Button onClick={handleSave} text={'Save'} />
+              <Button onClick={closeModal} text={'Close'} />
+            </ButtonContainer>
+          </ModalForm>
+        </ModalContainer>
       </ModalBackdrop>
     )
   );

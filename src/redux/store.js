@@ -21,6 +21,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['cars'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

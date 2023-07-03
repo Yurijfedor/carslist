@@ -27,6 +27,12 @@ const carsSlice = createSlice({
       });
       state.items = updatedItems;
     },
+    deleteCar(state, action) {
+      state.items = state.items.filter(item => item.id !== action.payload);
+    },
+    addCar(state, action) {
+      state.items = [action.payload, ...state.items];
+    },
   },
   extraReducers: builder => {
     builder
@@ -45,5 +51,6 @@ const carsSlice = createSlice({
   },
 });
 
-export const { setCurrentPage, setItems } = carsSlice.actions;
+export const { setCurrentPage, setItems, deleteCar, addCar } =
+  carsSlice.actions;
 export const carsReducer = carsSlice.reducer;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentPage, selectVisibleCars } from '../redux/selectors';
 import { EditCar } from './modals/editModal';
+import { DeleteCar } from './modals/deleteModal';
 
 export const CarList = ({ perPage }) => {
   const carsList = useSelector(selectVisibleCars);
@@ -19,9 +20,10 @@ export const CarList = ({ perPage }) => {
     e.target.value = '';
   };
 
-  const handleDelete = car => {
+  const handleDelete = (e, car) => {
     setSelectedCar(car);
     setShowDeleteModal(true);
+    e.target.value = '';
   };
 
   const renderTableRows = () => {
@@ -37,7 +39,9 @@ export const CarList = ({ perPage }) => {
         <td>
           <select
             onChange={e =>
-              e.target.value === 'edit' ? handleEdit(e, car) : handleDelete(car)
+              e.target.value === 'edit'
+                ? handleEdit(e, car)
+                : handleDelete(e, car)
             }
           >
             <option value="">Actions</option>
@@ -50,7 +54,6 @@ export const CarList = ({ perPage }) => {
   };
 
   const closeModal = () => {
-    // setSelectedCar(null);
     setShowEditModal(false);
     setShowDeleteModal(false);
   };
@@ -77,15 +80,11 @@ export const CarList = ({ perPage }) => {
         showEditModal={showEditModal}
         closeModal={closeModal}
       />
-      {/* Delete Modal */}
-      {showDeleteModal && (
-        <div className="modal">
-          <div className="modal-content">
-            {/* ...Delete modal content... */}
-            <button onClick={closeModal}>Close</button>
-          </div>
-        </div>
-      )}
+      <DeleteCar
+        item={selectedCar}
+        showDeleteModal={showDeleteModal}
+        closeModal={closeModal}
+      />
     </div>
   );
 };

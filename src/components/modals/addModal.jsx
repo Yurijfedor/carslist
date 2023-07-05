@@ -28,17 +28,35 @@ export const AddCar = ({ showAddModal, closeModal }) => {
     availability: '',
   });
 
+  const [currencyAdded, setCurrencyAdded] = useState(false);
+
   const handleInputChange = e => {
     const { name, value } = e.target;
-    setNewCar(prevCar => ({
-      ...prevCar,
-      [name]: value,
-    }));
+    const numericValue = value.replace(/[^0-9]/g, ''); // Remove any non-numeric characters
+
+    if (name === 'price' && !currencyAdded) {
+      setNewCar(prevCar => ({
+        ...prevCar,
+        [name]: `$${numericValue}`,
+      }));
+      setCurrencyAdded(true);
+    } else if (name === 'price' && currencyAdded) {
+      setNewCar(prevCar => ({
+        ...prevCar,
+        [name]: `$${numericValue}`,
+      }));
+    } else {
+      setNewCar(prevCar => ({
+        ...prevCar,
+        [name]: value,
+      }));
+    }
   };
 
   const handleAdd = () => {
     dispatch(addCar(newCar));
     closeModal();
+    setCurrencyAdded(false);
     console.log(newCar);
   };
 

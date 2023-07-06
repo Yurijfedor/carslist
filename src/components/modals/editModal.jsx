@@ -36,13 +36,34 @@ export const EditCar = ({ item, showEditModal, closeModal }) => {
     setEditedCar({ id, car_color, price, availability });
   }, [id, car_color, price, availability]);
 
+  const [currencyAdded, setCurrencyAdded] = useState(false);
+
   const handleInputChange = e => {
-    e.stopPropagation();
     const { name, value } = e.target;
-    setEditedCar(prevCar => ({
-      ...prevCar,
-      [name]: value,
-    }));
+    let formattedValue = value;
+    const numericValue = value.replace(/[^0-9,]/g, '');
+
+    if (name === 'price' && !currencyAdded) {
+      const parts = numericValue.split(',');
+      if (parts.length > 1 && parts[1].length < 2) {
+        formattedValue = `${parts[0]},${parts[1].padEnd(2, '0')}`;
+      }
+      setEditedCar(prevCar => ({
+        ...prevCar,
+        [name]: `$${formattedValue}`,
+      }));
+      setCurrencyAdded(true);
+    } else if (name === 'price' && currencyAdded) {
+      setEditedCar(prevCar => ({
+        ...prevCar,
+        [name]: `$${numericValue}`,
+      }));
+    } else {
+      setEditedCar(prevCar => ({
+        ...prevCar,
+        [name]: value,
+      }));
+    }
   };
   const handleSave = () => {
     console.log(editedCar);

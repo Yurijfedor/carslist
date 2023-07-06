@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { addCar } from '../../redux/cars/carsSlice';
@@ -12,6 +12,7 @@ import {
   FormInput,
   ButtonContainer,
 } from './modal.styled';
+import { SelectStyled, OptionStyled } from '../carsList/carsList.styled';
 import { Button } from '../buttons/button';
 
 export const AddCar = ({ showAddModal, closeModal }) => {
@@ -25,19 +26,24 @@ export const AddCar = ({ showAddModal, closeModal }) => {
     car_color: '',
     car_model_year: '',
     price: '',
-    availability: '',
+    availability: true,
   });
 
   const [currencyAdded, setCurrencyAdded] = useState(false);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
-    const numericValue = value.replace(/[^0-9]/g, ''); // Remove any non-numeric characters
+    let formattedValue = value;
+    const numericValue = value.replace(/[^0-9,]/g, '');
 
     if (name === 'price' && !currencyAdded) {
+      const parts = numericValue.split(',');
+      if (parts.length > 1 && parts[1].length < 2) {
+        formattedValue = `${parts[0]},${parts[1].padEnd(2, '0')}`;
+      }
       setNewCar(prevCar => ({
         ...prevCar,
-        [name]: `$${numericValue}`,
+        [name]: `$${formattedValue}`,
       }));
       setCurrencyAdded(true);
     } else if (name === 'price' && currencyAdded) {
@@ -52,7 +58,6 @@ export const AddCar = ({ showAddModal, closeModal }) => {
       }));
     }
   };
-
   const handleAdd = () => {
     dispatch(addCar(newCar));
     closeModal();
@@ -135,12 +140,20 @@ export const AddCar = ({ showAddModal, closeModal }) => {
             <FormGroup>
               <FormLabel>
                 Availability:
-                <FormInput
-                  type="text"
+                <SelectStyled
                   name="availability"
-                  value={newCar.availability}
-                  onChange={handleInputChange}
-                />
+                  value={newCar.availability ? 'true' : 'false'}
+                  onChange={e =>
+                    setNewCar(prevCar => ({
+                      ...prevCar,
+                      availability: e.target.value === 'true' ? true : false,
+                    }))
+                  }
+                >
+                  <OptionStyled value="">-- Select --</OptionStyled>
+                  <OptionStyled value="false">False</OptionStyled>
+                  <OptionStyled value="true">True</OptionStyled>
+                </SelectStyled>
               </FormLabel>
             </FormGroup>
           </ModalForm>

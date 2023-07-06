@@ -37,32 +37,38 @@ export const CarList = ({ perPage }) => {
   };
 
   const renderTableRows = () => {
-    return currentCars.map(car => (
-      <TableRow key={car.id}>
-        <TableCell>{car.car}</TableCell>
-        <TableCell>{car.car_model}</TableCell>
-        <TableCell>{car.car_vin}</TableCell>
-        <TableCell>{car.car_color}</TableCell>
-        <TableCell>{car.car_model_year}</TableCell>
-        <TableCell>{car.price}</TableCell>
-        <TableCell availability={car.availability}>
-          {car.availability ? 'available' : 'not available'}
-        </TableCell>
-        <TableCell>
-          <SelectStyled
-            onChange={e =>
-              e.target.value === 'edit'
-                ? handleEdit(e, car)
-                : handleDelete(e, car)
-            }
-          >
-            <OptionStyled value="">Actions</OptionStyled>
-            <OptionStyled value="edit">Edit</OptionStyled>
-            <OptionStyled value="delete">Delete</OptionStyled>
-          </SelectStyled>
-        </TableCell>
-      </TableRow>
-    ));
+    return currentCars.map(car => {
+      const formattedPrice = car.price.includes(',')
+        ? car.price
+        : `${car.price.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.00`;
+      console.log(car.availability);
+      return (
+        <TableRow key={car.id}>
+          <TableCell>{car.car}</TableCell>
+          <TableCell>{car.car_model}</TableCell>
+          <TableCell>{car.car_vin}</TableCell>
+          <TableCell>{car.car_color}</TableCell>
+          <TableCell>{car.car_model_year}</TableCell>
+          <TableCell>{formattedPrice}</TableCell>
+          <TableCell availability={car.availability}>
+            {car.availability ? 'available' : 'not available'}
+          </TableCell>
+          <TableCell>
+            <SelectStyled
+              onChange={e =>
+                e.target.value === 'edit'
+                  ? handleEdit(e, car)
+                  : handleDelete(e, car)
+              }
+            >
+              <OptionStyled value="">Actions</OptionStyled>
+              <OptionStyled value="edit">Edit</OptionStyled>
+              <OptionStyled value="delete">Delete</OptionStyled>
+            </SelectStyled>
+          </TableCell>
+        </TableRow>
+      );
+    });
   };
 
   const closeModal = () => {

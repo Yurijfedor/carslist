@@ -68,7 +68,6 @@ export const EditCar = ({ item, showEditModal, closeModal }) => {
     }
   };
   const handleSave = () => {
-    console.log(editedCar);
     dispatch(setItems(editedCar));
 
     closeModal();

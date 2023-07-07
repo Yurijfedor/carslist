@@ -41,7 +41,6 @@ export const CarList = ({ perPage }) => {
       const formattedPrice = car.price.includes(',')
         ? car.price
         : `${car.price.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}.00`;
-      console.log(car.availability);
       return (
         <TableRow key={car.id}>
           <TableCell>{car.car}</TableCell>

@@ -63,7 +63,6 @@ export const AddCar = ({ showAddModal, closeModal }) => {
     dispatch(addCar(newCar));
     closeModal();
     setCurrencyAdded(false);
-    console.log(newCar);
   };
 
   return (

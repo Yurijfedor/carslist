@@ -14,7 +14,6 @@ export const DeleteCar = ({ item, showDeleteModal, closeModal }) => {
 
   const handleDelete = () => {
     dispatch(deleteCar(item.id));
-    console.log(item.id);
     closeModal();
   };
 

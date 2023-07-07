@@ -11,7 +11,9 @@ import {
   FormInput,
   ButtonContainer,
 } from './modal.styled';
+import { SelectStyled, OptionStyled } from '../carsList/carsList.styled';
 import { Button } from '../buttons/button';
+import { colorOptions } from '../../helpers/colorOptions';
 
 export const EditCar = ({ item, showEditModal, closeModal }) => {
   const dispatch = useDispatch();
@@ -108,12 +110,23 @@ export const EditCar = ({ item, showEditModal, closeModal }) => {
             <FormGroup>
               <FormLabel>
                 Color:
-                <FormInput
-                  type="text"
+                <SelectStyled
                   name="car_color"
-                  value={editedCar.car_color}
-                  onChange={handleInputChange}
-                />
+                  value={editedCar.color}
+                  onChange={e =>
+                    setEditedCar(prevCar => ({
+                      ...prevCar,
+                      car_color: e.target.value,
+                    }))
+                  }
+                >
+                  <OptionStyled value="">Select a color</OptionStyled>
+                  {colorOptions.map(color => (
+                    <OptionStyled key={color} value={color}>
+                      {color}
+                    </OptionStyled>
+                  ))}
+                </SelectStyled>
               </FormLabel>
             </FormGroup>
             <FormGroup>
@@ -136,12 +149,20 @@ export const EditCar = ({ item, showEditModal, closeModal }) => {
             <FormGroup>
               <FormLabel>
                 Availability:
-                <FormInput
-                  type="text"
+                <SelectStyled
                   name="availability"
-                  value={editedCar.availability}
-                  onChange={handleInputChange}
-                />
+                  value={editedCar.availability ? 'true' : 'false'}
+                  onChange={e =>
+                    setEditedCar(prevCar => ({
+                      ...prevCar,
+                      availability: e.target.value === 'true' ? true : false,
+                    }))
+                  }
+                >
+                  <OptionStyled value="">-- Select --</OptionStyled>
+                  <OptionStyled value="false">Not available</OptionStyled>
+                  <OptionStyled value="true">Available</OptionStyled>
+                </SelectStyled>
               </FormLabel>
             </FormGroup>
             <ButtonContainer>

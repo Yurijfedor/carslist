@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { addCar } from '../../redux/cars/carsSlice';
@@ -14,6 +14,7 @@ import {
 } from './modal.styled';
 import { SelectStyled, OptionStyled } from '../carsList/carsList.styled';
 import { Button } from '../buttons/button';
+import { colorOptions } from '../../helpers/colorOptions';
 
 export const AddCar = ({ showAddModal, closeModal }) => {
   const dispatch = useDispatch();
@@ -28,7 +29,6 @@ export const AddCar = ({ showAddModal, closeModal }) => {
     price: '',
     availability: true,
   });
-
   const [currencyAdded, setCurrencyAdded] = useState(false);
 
   const handleInputChange = e => {
@@ -58,6 +58,7 @@ export const AddCar = ({ showAddModal, closeModal }) => {
       }));
     }
   };
+
   const handleAdd = () => {
     dispatch(addCar(newCar));
     closeModal();
@@ -107,12 +108,23 @@ export const AddCar = ({ showAddModal, closeModal }) => {
             <FormGroup>
               <FormLabel>
                 Color:
-                <FormInput
-                  type="text"
+                <SelectStyled
                   name="car_color"
                   value={newCar.color}
-                  onChange={handleInputChange}
-                />
+                  onChange={e =>
+                    setNewCar(prevCar => ({
+                      ...prevCar,
+                      car_color: e.target.value,
+                    }))
+                  }
+                >
+                  <OptionStyled value="">Select a color</OptionStyled>
+                  {colorOptions.map(color => (
+                    <OptionStyled key={color} value={color}>
+                      {color}
+                    </OptionStyled>
+                  ))}
+                </SelectStyled>
               </FormLabel>
             </FormGroup>
             <FormGroup>
@@ -151,8 +163,8 @@ export const AddCar = ({ showAddModal, closeModal }) => {
                   }
                 >
                   <OptionStyled value="">-- Select --</OptionStyled>
-                  <OptionStyled value="false">False</OptionStyled>
-                  <OptionStyled value="true">True</OptionStyled>
+                  <OptionStyled value="false">Not available</OptionStyled>
+                  <OptionStyled value="true">Available</OptionStyled>
                 </SelectStyled>
               </FormLabel>
             </FormGroup>
